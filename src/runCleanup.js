@@ -166,14 +166,18 @@ async function runCleanup(branch) {
           });
           if (confirmDelete.confirm) {
             await Promise.all(
-              remoteBranchesToDelete.map((remoteBranch) => {
-                return execa("git", [
-                  "push",
-                  "origin",
-                  "--delete",
-                  remoteBranch,
-                ]);
-              })
+              remoteBranchesToDelete
+                .map((remoteBranch) => {
+                  return remoteBranch.replace("origin/", "");
+                })
+                .map((remoteBranch) => {
+                  return execa("git", [
+                    "push",
+                    "origin",
+                    "--delete",
+                    remoteBranch,
+                  ]);
+                })
             ).then((results) => {
               results.forEach((result, index) => {
                 if (result.status === "rejected") {
@@ -188,16 +192,23 @@ async function runCleanup(branch) {
               const allGood = results.every(
                 (result) => result.status === "fulfilled"
               );
+
               if (allGood) {
                 console.log(
                   picocolors.green("All remote branches deleted successfully.")
                 );
               } else {
+                const theBad = results.filter(
+                  (result) => result.status === "rejected"
+                );
                 console.log(
                   picocolors.red(
                     "Some remote branches were not deleted successfully."
                   )
                 );
+                theBad.forEach((result) => {
+                  console.log(picocolors.red(result.stderr));
+                });
               }
               console.log(
                 picocolors.green("Finished deleting remote branches.")
