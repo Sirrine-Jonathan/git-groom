@@ -24,7 +24,7 @@ npm install -g git-groom
 Run `git-groom` to clean up your repository:
 
 ```sh
-git-groom cleanup
+git-groom
 ```
 
 By default, `git-groom` operates on the main branch of your repository, automatically detecting whether the main branch is `main`, `master`, or another name.
@@ -32,13 +32,13 @@ By default, `git-groom` operates on the main branch of your repository, automati
 You can specify a branch to clean up merged branches from:
 
 ```sh
-git-groom cleanup <branch-name>
+git-groom <branch-name>
 ```
 
 ### Example
 
 ```sh
-git-groom cleanup develop
+git-groom develop
 ```
 
 This will remove all branches merged into `develop`, prune stale remote branches, and clean up merged tags.
