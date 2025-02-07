@@ -49,7 +49,26 @@ async function runCleanup(branch) {
           branchesToDelete.map((branchName) =>
             execa("git", ["branch", "-d", branchName])
           )
-        );
+        ).then((results) => {
+          results.forEach((result, index) => {
+            if (result.status === "rejected") {
+              console.log(
+                picocolors.red(`Error deleting ${branchesToDelete[index]}`)
+              );
+            }
+          });
+          const allGood = results.every(
+            (result) => result.status === "fulfilled"
+          );
+          if (allGood) {
+            console.log(picocolors.green("All branches deleted successfully."));
+          } else {
+            console.log(
+              picocolors.red("Some branches were not deleted successfully.")
+            );
+          }
+          console.log(picocolors.green("Finished deleting branches."));
+        });
       } else {
         console.log(picocolors.yellow("Skipping branch deletion."));
       }
@@ -72,10 +91,28 @@ async function runCleanup(branch) {
         message: "Are you sure you want to delete these tags?",
       });
       if (confirmDelete.confirm) {
-        console.log(picocolors.green("Deleting tags..."));
         await Promise.all(
           tagsToDelete.map((tag) => execa("git", ["tag", "-d", tag]))
-        );
+        ).then((results) => {
+          results.forEach((result, index) => {
+            if (result.status === "rejected") {
+              console.log(
+                picocolors.red(`Error deleting ${tagsToDelete[index]}`)
+              );
+            }
+          });
+          const allGood = results.every(
+            (result) => result.status === "fulfilled"
+          );
+          if (allGood) {
+            console.log(picocolors.green("All tags deleted successfully."));
+          } else {
+            console.log(
+              picocolors.red("Some tags were not deleted successfully.")
+            );
+          }
+          console.log(picocolors.green("Finished deleting tags."));
+        });
       } else {
         console.log(picocolors.yellow("Skipping tag deletion."));
       }
@@ -128,7 +165,7 @@ async function runCleanup(branch) {
             message: "Are you sure you want to delete these remote branches?",
           });
           if (confirmDelete.confirm) {
-            await Promise.allSettled(
+            await Promise.all(
               remoteBranchesToDelete.map((remoteBranch) => {
                 return execa("git", [
                   "push",
@@ -147,6 +184,24 @@ async function runCleanup(branch) {
                   );
                 }
               });
+
+              const allGood = results.every(
+                (result) => result.status === "fulfilled"
+              );
+              if (allGood) {
+                console.log(
+                  picocolors.green("All remote branches deleted successfully.")
+                );
+              } else {
+                console.log(
+                  picocolors.red(
+                    "Some remote branches were not deleted successfully."
+                  )
+                );
+              }
+              console.log(
+                picocolors.green("Finished deleting remote branches.")
+              );
             });
           } else {
             console.log(picocolors.yellow("Skipping remote branch deletion."));
