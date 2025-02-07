@@ -8,7 +8,7 @@
   },
   "main": "src/index.js",
   "bin": {
-    "git-groom": "./bin/cli.js"
+    "git-groom": "bin/cli.js"
   },
   "scripts": {
     "start": "node bin/cli.js",
