@@ -1,0 +1,25 @@
+{
+  "name": "git-groom",
+  "version": "0.1.0",
+  "description": "A CLI tool for cleaning up Git branches, tags, and remotes",
+  "main": "src/index.js",
+  "bin": {
+    "git-groom": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node bin/cli.js"
+  },
+  "keywords": [],
+  "author": "Jonathan Sirrine",
+  "email": "sirrineprogramming@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^13.1.0",
+    "execa": "^9.5.2",
+    "inquirer": "^12.4.1",
+    "picocolors": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
