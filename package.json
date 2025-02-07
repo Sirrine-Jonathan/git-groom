@@ -1,6 +1,6 @@
 {
   "name": "git-groom",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A CLI tool for cleaning up Git branches, tags, and remotes",
   "repository": {
     "type": "git",
