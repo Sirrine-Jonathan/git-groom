@@ -1,5 +1,7 @@
 # git-groom
 
+![NPM Version](https://img.shields.io/npm/v/git-groom?style=for-the-badge) ![NPM Downloads](https://img.shields.io/npm/dw/git-groom?style=for-the-badge)
+
 ## Overview
 
 `git-groom` is a CLI tool designed to help developers clean up their Git repositories by automatically identifying and deleting merged branches, pruning stale remote branches, and removing unnecessary tags. This helps keep repositories neat and prevents clutter from accumulating over time.
